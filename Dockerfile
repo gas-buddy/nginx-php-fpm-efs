@@ -87,8 +87,8 @@ RUN echo "cgi.fix_pathinfo=0" > ${php_vars} &&\
 
 
 # Add Scripts
-ADD scripts/start.sh /start.sh
-RUN chmod 755 /start.sh
+ADD docker-entrypoint.sh /entrypoint.sh
+RUN chmod 755 /entrypoint.sh
 
 # copy in code
 ADD src/ /var/www/html/
@@ -96,6 +96,6 @@ ADD errors/ /var/www/errors
 
 VOLUME /var/www/html
 
-EXPOSE 443 80
+EXPOSE 80
 
-CMD ["/start.sh"]
+CMD ["/entrypoint.sh"]
