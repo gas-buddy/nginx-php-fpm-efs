@@ -72,6 +72,12 @@ if [ ! -z "$PHP_UPLOAD_MAX_FILESIZE" ]; then
  sed -i "s/upload_max_filesize = 100M/upload_max_filesize= ${PHP_UPLOAD_MAX_FILESIZE}M/g" /etc/php/conf.d/docker-vars.ini
 fi
 
+# Change order of directories and paths checked for content
+if [ -f /etc/nginx/sites-available/default-ssl.conf ]; then
+  sed -i 's,try_files $uri $uri/ =404;,try_files $uri $uri/ /index.php?q=$uri\&$args2,' /etc/nginx/sites-available/default-ssl.conf
+fi
+
+
 if [ ! -z "$PUID" ]; then
   if [ -z "$PGID" ]; then
     PGID=${PUID}
